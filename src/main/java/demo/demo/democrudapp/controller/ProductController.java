@@ -1,5 +1,6 @@
 package demo.demo.democrudapp.controller;
 
+import demo.demo.democrudapp.enums.CategoryType;
 import demo.demo.democrudapp.model.Product;
 import demo.demo.democrudapp.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<List<Product>> readAllProducts() {
         List<Product> productList = productService.getAllProducts();
-        return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+        return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -45,7 +46,6 @@ public class ProductController {
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 
         Optional<Product> product = productService.findProductById(id);
-//        String response =  productService.deleteProductById(id);
         if (product.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(productService.deleteProductById(id));
         } else {
@@ -53,6 +53,21 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/productsByCategory")
+    public ResponseEntity<List<Product>> findProductsByCategory(@RequestParam String categoryType) {
+
+        List<Product> products = productService.findProductsByCategoryType(CategoryType.valueOf(categoryType));
+        return ResponseEntity.status(HttpStatus.OK).body(products);
+    }
+
+    @PutMapping("/updateProduct")
+    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
+
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(productService.updateProduct(product));
+    }
 
 }
 
