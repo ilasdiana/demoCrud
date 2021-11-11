@@ -8,12 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity(name = "orders")
+@Getter
+@Setter
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

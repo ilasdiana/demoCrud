@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity(name = "product")
 @AllArgsConstructor
@@ -25,6 +24,9 @@ public class Product {
     private Double price;
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private CategoryType categoryType;
+
     @ManyToMany
     @JoinTable(
             name = "products_orders",
@@ -33,9 +35,6 @@ public class Product {
     )
     @ToString.Exclude
     private Set<Order> orderList;
-
-    @Enumerated(EnumType.STRING)
-    private CategoryType categoryType;
 
     @Override
     public boolean equals(Object o) {
